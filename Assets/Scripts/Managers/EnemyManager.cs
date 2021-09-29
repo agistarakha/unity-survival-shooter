@@ -1,0 +1,35 @@
+﻿using UnityEngine;
+
+public class EnemyManager : MonoBehaviour
+{
+    public PlayerHealth playerHealth;
+    public float spawnTime = 3f;
+
+
+
+    [SerializeField]
+    MonoBehaviour factory;
+    IFactory Factory { get { return factory as IFactory; } }
+
+
+
+    void Start()
+    {
+        InvokeRepeating("Spawn", spawnTime, spawnTime);
+    }
+
+
+    void Spawn()
+    {
+        if (playerHealth.currentHealth <= 0f)
+        {
+            return;
+        }
+
+        int spawnPointIndex = Random.Range(0, 3);
+        int spawnEnemy = Random.Range(0, 3);
+        Factory.FactoryMethod(spawnEnemy, spawnPointIndex);
+        //Instantiate(enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+
+    }
+}
